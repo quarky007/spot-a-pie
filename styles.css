@@ -1,0 +1,104 @@
+body {
+  font-family: 'Helvetica', sans-serif;
+  background-color: #121212;
+  color: #fff;
+  margin: 0;
+  padding-bottom: 80px; /* Space for footer */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navbar {
+  background-color: #1DB954;
+  z-index: 1000;
+}
+
+.navbar .form-control {
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  width: 400px; /* Increased width */
+}
+
+.navbar .btn {
+  background-color: #fff;
+  color: #1DB954;
+  border-radius: 20px;
+}
+
+.navbar .btn:hover {
+  background-color: #f2f2f2;
+}
+
+.search-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar {
+  position: fixed;
+  top: 56px; /* Adjusted to be below the navbar */
+  left: 0;
+  height: calc(100% - 56px - 80px); /* Adjusted height to be between navbar and footer */
+  width: 220px;
+  background-color: #282828;
+  padding-top: 20px;
+  z-index: 999;
+}
+
+.sidebar a {
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #B3B3B3;
+  display: block;
+}
+
+.sidebar a:hover {
+  background-color: #1DB954;
+  color: #fff;
+}
+
+.main-content {
+  margin-left: 220px;
+  padding: 20px;
+  flex: 1; /* Ensure this area grows to fill available space */
+  background-color: #121212;
+}
+
+.card {
+  background-color: #2A2A2A;
+  border: none;
+  margin-bottom: 20px;
+  padding: 15px; /* Added padding */
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.footer {
+  background-color: #282828;
+  padding: 20px;
+  text-align: center;
+  color: #B3B3B3;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+.navbar-link {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  color: #f2f2f2;
+}
+nav a{
+  margin-left: 20px;
+}
