@@ -30,7 +30,7 @@
       color: #1ed760 !important;
     }
     .sidebar {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       height: 100%;
@@ -40,6 +40,7 @@
       padding-right: 15px;
       padding-left: 15px;
       padding-bottom: 30px;
+      margin-top: 70px;
     }
     .sidebar a {
       color: #b3b3b3;
@@ -89,6 +90,42 @@
     #playlistFormContainer {
       margin-bottom: 20px;
     }
+   /* Grid Container for Music Cards */
+#new-releases, #artist-music {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Gap between grid items */
+}
+
+/* Music Card Styling */
+.card {
+  background-color: #282828;
+  border: none;
+  color: #b3b3b3;
+  overflow: hidden;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  cursor: pointer; /* Cursor changes to pointer on hover */
+}
+
+.card-img-top {
+  border-bottom: 1px solid #444; /* Border between image and text */
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  color: #b3b3b3;
+  font-size: 0.9rem;
+}
   </style>
 </head>
 <body>
@@ -105,7 +142,7 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <a href="#">Home</a>
+    <a href="#" id="homeBtn">Home</a>
     <a href="#">Your Library</a>
     <a href="#" id="createPlaylistBtn">Create Playlist</a>
     <a href="#">Liked Songs</a>
@@ -125,12 +162,17 @@
                   <input type="text" class="form-control" id="playlistName" placeholder="Enter playlist name" />
                 </div>
                 <button type="button" class="btn btn-primary" id="submitPlaylistBtn">Create Playlist</button>
-                <button class="btn btn-secondary mt-2">Add to Playlist</button>
+  
               </form>
             </div>
 
             <!-- New Releases Section -->
             <div id="new-releases" class="container mt-4"></div>
+            <!-- New Releases Section -->
+            <div id="new-releases" class="container mt-4"></div>
+
+            <!-- Artist Music Section -->
+            <div id="artist-music" class="container mt-4"></div>
 
             <!-- Recommendations Section -->
             <div id="recommendationsContainer" class="container mt-4">
@@ -149,30 +191,7 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container-fluid">
-      <div class="row align-items-center">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <div class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-link">
-              <i class="bi bi-skip-start-fill"></i>
-            </button>
-            <button id="play" class="btn btn-link">
-              <i class="bi bi-play-fill"></i>
-            </button>
-            <button class="btn btn-link">
-              <i class="bi bi-skip-end-fill"></i>
-            </button>
-          </div>
-          <div class="d-flex justify-content-center align-items-center mt-2">
-            <input type="range" class="form-range" id="customRange1" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+ 
 
   <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
