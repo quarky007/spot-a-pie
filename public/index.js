@@ -11,7 +11,7 @@ const fetchWithAuth = (url, opts) => {
   });
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const hash = window.location.hash.substring(1);
   const params = new URLSearchParams(hash);
   accessToken = params.get("access_token");
@@ -22,39 +22,18 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const apiUrl = "https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy";
-  console.log(accessToken);
+  const result = await releases();
+  console.log(result);
+  let innerHTML;
+  result.albums.items.forEach((item) => {
+    innerHTML += `
+      <div>
+        <h2>${item.name}</h2>
+      </div>
+    `;
+  });
 
-  fetch(apiUrl, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const albumsContainer = document.getElementById("albums");
-      console.log(data);
-      const items = data.tracks.items;
-
-      items.forEach((item) => {
-        const albumCard = document.createElement("div");
-        albumCard.className = "col-md-3 mb-4";
-
-        albumCard.innerHTML = `
-          <div class="card">
-              <div class="card-body">
-                  <h5 class="card-title">${item.name}</h5>
-                  <p class="card-text">${item.artists
-                    .map((artist) => artist.name)
-                    .join(", ")}</p>
-              </div>
-          </div>
-        `;
-
-        albumsContainer.appendChild(albumCard);
-      });
-    })
-    .catch((error) => console.error("Error fetching data:", error));
+  document.getElementById("albums").innerHTML = innerHTML;
 });
 
 const search = async (query) => {
@@ -72,9 +51,10 @@ const handleSearch = async (e) => {
   console.log(result);
 
   innerHTML = "";
-  result.tracks.items.forEach((item) => {
+  for (const item of result.tracks.items) {
     innerHTML += `
       <div>
+        <img class="img-fluid" src="${item.album.images[0].url}">
         <h1>${item.name}</h1>
         ${
           item.preview_url
@@ -83,16 +63,24 @@ const handleSearch = async (e) => {
               <source src=${item.preview_url} type="audio/mpeg">
           </audio>
           `
-            : "No preview"
+            : `<p class="text-muted">No preview available</p>`
         }
+        <button id=${item.id} type="button" class="btn btn-dark">Save</button>
       </div>
     `;
-  });
+  }
 
   document.getElementById("albums").innerHTML = innerHTML;
 };
 
 document.getElementById("search").addEventListener("submit", handleSearch);
+
+const releases = async () => {
+  const response = await fetchWithAuth(`${API_BASE_URL}/browse/new-releases`);
+  const body = await response.json();
+
+  return body;
+};
 
 // playlist fuctions
 
@@ -111,11 +99,9 @@ document
       return;
     }
 
-    const token = accessToken;
-
     try {
-      const userId = await fetchUserId(token);
-      await createPlaylist(userId, playlistName, token);
+      const userId = await fetchUserId(accessToken);
+      await createPlaylist(userId, playlistName, accessToken);
       alert("Playlist created successfully!");
     } catch (error) {
       console.error("Error creating playlist:", error);
@@ -123,7 +109,7 @@ document
     }
   });
 
-async function fetchUserId(token) {
+async function fetchUserId() {
   const response = await fetchWithAuth("https://api.spotify.com/v1/me");
 
   if (!response.ok) {
@@ -134,7 +120,7 @@ async function fetchUserId(token) {
   return data.id;
 }
 
-async function createPlaylist(userId, playlistName, token) {
+async function createPlaylist(userId, playlistName) {
   const response = await fetchWithAuth(
     `https://api.spotify.com/v1/users/${userId}/playlists`,
     {
