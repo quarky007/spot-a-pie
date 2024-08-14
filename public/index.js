@@ -52,27 +52,34 @@ const handleSearch = async (e) => {
 
   document.getElementById("albums").innerHTML = result.tracks.items
     .map(
-      (item) =>
-        `<div>
-        <img class="img-fluid" src="${item.album.images[0].url}">
-        <h1>${item.name}</h1>
-        ${
-          item.preview_url
-            ? `
-          <audio controls="controls">
-              <source src=${item.preview_url} type="audio/mpeg">
-          </audio>
-          `
-            : `<p class="text-muted">No preview available</p>`
-        }
-        <div class="dropdown">
-          <button id="${
-            item.id
-          }" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Add to playlist
-          </button>
-          <ul class="dropdown-menu">
-          </ul>
+      (item) => `
+        <div class="d-flex align-items-center mb-3 rounded">
+          <img class="rounded img-fluid" width="100px" src="${
+            item.album.images[0].url
+          }">
+          <div class="p-4 d-flex flex-grow-1 align-items-center justify-content-between">
+            <div>
+              <h2>${item.name}</h2>
+              ${
+                item.preview_url
+                  ? `
+                <audio controls="controls">
+                    <source src=${item.preview_url} type="audio/mpeg">
+                </audio>
+                `
+                  : `<p class="text-white">No preview available</p>`
+              }
+            </div>
+            <div class="dropdown">
+              <button id="${
+                item.id
+              }" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Save
+              </button>
+              <ul class="dropdown-menu">
+              </ul>
+            </div>
+          </div>
         </div>
     `
     )
