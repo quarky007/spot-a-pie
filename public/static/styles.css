@@ -1,4 +1,4 @@
-.bg-green {
-  background-color: #0c8f0c;
-  color: white;
+.hover:hover {
+  opacity: 0.5;
+  /* background-color: gray; */
 }

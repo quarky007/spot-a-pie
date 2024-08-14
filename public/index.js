@@ -54,12 +54,15 @@ const handleSearch = async (e) => {
     .map(
       (item) => `
         <div class="d-flex align-items-center mb-3 rounded">
-          <img class="rounded img-fluid" width="100px" src="${
+          <img class="rounded img-fluid" width="120px" src="${
             item.album.images[0].url
           }">
           <div class="p-4 d-flex flex-grow-1 align-items-center justify-content-between">
             <div>
               <h2>${item.name}</h2>
+              <h3 class="lead mb-4">${item.artists
+                .map((artist) => artist.name)
+                .join(", ")}</h3>
               ${
                 item.preview_url
                   ? `
@@ -411,13 +414,59 @@ document.addEventListener("DOMContentLoaded", () => {
   const mainContent = document.getElementById("albums");
 
   if (libraryBtn && mainContent) {
-    libraryBtn.addEventListener("click", () => {
-      mainContent.innerHTML = "";
+    libraryBtn.addEventListener("click", async () => {
+      const items = await fetchUserPlaylists();
+      console.log(items);
+      mainContent.innerHTML = items
+        .map(
+          (item) => `
+            <div id="${item.id}" class="d-flex align-items-center mb-3 hover rounded p-4">
+              <div>
+                <img src="${item.images[0].url}" width="120px" class="rounded"> 
+              </div>
 
-      const heading = document.createElement("h2");
-      heading.textContent = "Playlists";
+              <div class="p-4">
+                <h2>${item.name}</h2>
+                <h3 class="lead">${item.tracks.total} track(s)</h3>
+              </div>
+            </div>  
+          `
+        )
+        .join("");
 
-      mainContent.appendChild(heading);
+      items.forEach((item) =>
+        document.getElementById(item.id).addEventListener("click", async () => {
+          console.log("clicked");
+          let innerHTML = `<h1>${item.name}</h1>`;
+          const response = await fetchWithAuth(item.href);
+          const body = await response.json();
+
+          innerHTML += body.tracks.items
+            .map(
+              (item) => `
+                <div class="d-flex align-items-center mb-4">
+                  <div>
+                    <img class="rounded img-fluid" width="100px" src="${
+                      item.track.album.images[0].url
+                    }">
+                  </div>
+
+                  <div class="d-flex flex-grow-1 justify-content-between align-items-center p-4">
+                    <div>
+                      <h2>${item.track.name}</h2>
+                      <h3 class="lead">${item.track.artists
+                        .map((artist) => artist.name)
+                        .join(", ")}</h3>
+                      <p>${item.track.album.name}</p>
+                    </div>
+                  </div>
+                </div>`
+            )
+            .join("");
+
+          mainContent.innerHTML = innerHTML;
+        })
+      );
     });
   } else {
     console.error("Required elements are missing.");
