@@ -1,28 +1,17 @@
-body {
-  font-family: 'Helvetica', sans-serif;
-  background-color: #121212;
-  color: #fff;
-  margin: 0;
-  padding-bottom: 80px; /* Space for footer */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .navbar {
-  background-color: #1DB954;
+  background-color: #1db954;
   z-index: 1000;
 }
 
-.navbar .form-control {
+/* .navbar .form-control {
   border-radius: 20px;
   padding: 0.5rem 1rem;
-  width: 400px; /* Increased width */
-}
+  width: 400px; 
+} */
 
 .navbar .btn {
   background-color: #fff;
-  color: #1DB954;
+  color: #1db954;
   border-radius: 20px;
 }
 
@@ -41,7 +30,9 @@ body {
   position: fixed;
   top: 56px; /* Adjusted to be below the navbar */
   left: 0;
-  height: calc(100% - 56px - 80px); /* Adjusted height to be between navbar and footer */
+  height: calc(
+    100% - 56px - 80px
+  ); /* Adjusted height to be between navbar and footer */
   width: 220px;
   background-color: #282828;
   padding-top: 20px;
@@ -52,12 +43,12 @@ body {
   padding: 10px 15px;
   text-decoration: none;
   font-size: 18px;
-  color: #B3B3B3;
+  color: #b3b3b3;
   display: block;
 }
 
 .sidebar a:hover {
-  background-color: #1DB954;
+  background-color: #1db954;
   color: #fff;
 }
 
@@ -69,10 +60,10 @@ body {
 }
 
 .card {
-  background-color: #2A2A2A;
+  background-color: #2a2a2a;
   border: none;
   margin-bottom: 20px;
-  padding: 15px; /* Added padding */
+  padding: 15px;
 }
 
 .card-title {
@@ -84,7 +75,7 @@ body {
   background-color: #282828;
   padding: 20px;
   text-align: center;
-  color: #B3B3B3;
+  color: #b3b3b3;
   position: fixed;
   width: 100%;
   bottom: 0;
@@ -99,6 +90,6 @@ body {
 .navbar-link:hover {
   color: #f2f2f2;
 }
-nav a{
+nav a {
   margin-left: 20px;
 }

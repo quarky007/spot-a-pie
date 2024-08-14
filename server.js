@@ -22,7 +22,7 @@ app.get("/authorize", async (req, res) => {
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
         new URLSearchParams({
-          client_id: "0b1feca00dd64b06b2ecb88833bd84d8",
+          client_id: process.env.CLIENT_ID,
           response_type: "token",
           redirect_uri: "http://localhost:5000",
           state: generateRandomString(16),
