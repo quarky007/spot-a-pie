@@ -46,12 +46,16 @@
       <a href="#">Liked Songs</a>
     </div>
 
-    <div class="main-content">
+    <div class="main-content" id="albums">
       <div class="row">
         <div class="col-md-4">
           <div class="card">
-            <h5 class="card-title">Song or Album Title</h5>
-            <p class="card-text">Artist Name</p>
+            <div id="new-releases" class="container " style="color: white;">
+              <h2>New Releases</h2>
+              <div id="albums" class="row">
+                 
+              </div>
+          </div>
           </div>
         </div>
 
@@ -86,6 +90,52 @@
         </div>
       </div>
     </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const hash = window.location.hash.substring(1);
+          const params = new URLSearchParams(hash);
+          const accessToken = params.get('access_token');
+          
+          if (!accessToken) {
+              // If no token is present, redirect to Spotify authorization
+              window.location.href = '/authorize';
+              return;
+          }
+
+          const apiUrl = 'https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy';
+          console.log(accessToken)
+
+          fetch(apiUrl, {
+              headers: {
+                  'Authorization': `Bearer ${accessToken}`
+              }
+          })
+          .then(response => response.json())
+          .then(data => {
+              const albumsContainer = document.getElementById('albums');
+              const albums = data.albums.items;
+
+              albums.forEach(album => {
+                  const albumCard = document.createElement('div');
+                  albumCard.className = 'col-md-3 mb-4';
+
+                  albumCard.innerHTML = `
+                      <div class="card">
+                          <img src="${album.images[1].url}" class="card-img-top" alt="${album.name}">
+                          <div class="card-body">
+                              <h5 class="card-title">${album.name}</h5>
+                              <p class="card-text">${album.artists.map(artist => artist.name).join(', ')}</p>
+                          </div>
+                      </div>
+                  `;
+
+                  albumsContainer.appendChild(albumCard);
+              });
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      });
+  </script>
 
     <!-- <script>
       let done = false;
