@@ -261,15 +261,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displayRecommendations(tracks) {
     recommendationsDiv.innerHTML = "";
+    console.log(tracks);
+
     tracks.forEach((track) => {
       const trackDiv = document.createElement("div");
-      trackDiv.className = "mb-2";
       trackDiv.innerHTML = `
-        <h5>${track.name}</h5>
-        <p>${track.artists.map((artist) => artist.name).join(", ")}</p>
-        <p>${track.album.name}</p>
+        <div class="d-flex align-items-center mb-4">
+          <div>
+            <img class="rounded img-fluid" width="100px" src="${
+              track.album.images[0].url
+            }">
+          </div>
+
+          <div class="d-flex flex-grow-1 justify-content-between align-items-center p-4">
+            <div>
+              <h2>${track.name}</h2>
+              <h3 class="lead">${track.artists
+                .map((artist) => artist.name)
+                .join(", ")}</h3>
+              <p>${track.album.name}</p>
+            </div>
+            
+            <div class="dropdown">
+              <button id="${
+                track.id
+              }" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Save
+              </button>
+              <ul class="dropdown-menu">
+              </ul>
+            </div>
+          </div>
+        </div>
       `;
       recommendationsDiv.appendChild(trackDiv);
+    });
+
+    tracks.forEach((track) => {
+      document.getElementById(track.id).addEventListener("click", handleSave);
     });
   }
 });
