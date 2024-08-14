@@ -417,9 +417,13 @@ document.addEventListener("DOMContentLoaded", () => {
       mainContent.innerHTML = items
         .map(
           (item) => `
-            <div id="${item.id}" class="d-flex align-items-center mb-3 hover rounded p-4">
+            <div id="${
+              item.id
+            }" class="d-flex align-items-center mb-3 hover rounded p-4">
               <div>
-                <img src="${item.images[0].url}" width="120px" class="rounded"> 
+                <img src="${
+                  items.images.length > 0 ? item.images[0].url : ""
+                }" width="120px" class="rounded"> 
               </div>
 
               <div class="p-4">
