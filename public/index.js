@@ -50,10 +50,10 @@ const handleSearch = async (e) => {
 
   console.log(result);
 
-  innerHTML = "";
-  for (const item of result.tracks.items) {
-    innerHTML += `
-      <div>
+  document.getElementById("albums").innerHTML = result.tracks.items
+    .map(
+      (item) =>
+        `<div>
         <img class="img-fluid" src="${item.album.images[0].url}">
         <h1>${item.name}</h1>
         ${
@@ -65,13 +65,67 @@ const handleSearch = async (e) => {
           `
             : `<p class="text-muted">No preview available</p>`
         }
-        <button id=${item.id} type="button" class="btn btn-dark">Save</button>
-      </div>
-    `;
-  }
+        <div class="dropdown">
+          <button id="${
+            item.id
+          }" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Add to playlist
+          </button>
+          <ul class="dropdown-menu">
+          </ul>
+        </div>
+    `
+    )
+    .join("");
 
-  document.getElementById("albums").innerHTML = innerHTML;
+  result.tracks.items.forEach((item) => {
+    document.getElementById(item.id).addEventListener("click", handleSave);
+  });
 };
+
+const handleSave = async (e) => {
+  console.log("clicked");
+  const items = await fetchUserPlaylists();
+
+  console.log(items);
+  e.target.parentElement.getElementsByTagName("ul")[0].innerHTML = items
+    .map(
+      (item) => `<li id="${item.id}" class="dropdown-item">${item.name}</li>`
+    )
+    .join("");
+
+  let trackId = e.target.id;
+
+  items.forEach((item) => {
+    document
+      .getElementById(item.id)
+      .addEventListener("click", () => addTrackToPlaylist(item.id, trackId));
+  });
+};
+
+async function fetchUserPlaylists() {
+  const response = await fetchWithAuth(`${API_BASE_URL}/me/playlists`);
+  if (!response.ok) throw new Error("Failed to fetch playlists");
+
+  const data = await response.json();
+  return data.items;
+}
+
+async function addTrackToPlaylist(playlistId, trackUri) {
+  console.log(playlistId, trackUri);
+  const response = await fetchWithAuth(
+    `${API_BASE_URL}/playlists/${playlistId}/tracks`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ uris: [`spotify:track:${trackUri}`] }),
+    }
+  );
+
+  if (!response.ok) throw new Error("Failed to add track");
+}
 
 document.getElementById("search").addEventListener("submit", handleSearch);
 
