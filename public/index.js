@@ -309,17 +309,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const artistMusicContainer = document.getElementById("artist-music");
 
   // Replace with your actual Spotify API token
-  const accessToken = "YOUR_SPOTIFY_ACCESS_TOKEN";
 
   homeBtn.addEventListener("click", async () => {
     try {
       const response = await fetchWithAuth(
         "https://api.spotify.com/v1/browse/new-releases",
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+        {}
       );
       const data = await response.json();
 
