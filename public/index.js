@@ -279,10 +279,18 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="d-flex flex-grow-1 justify-content-between align-items-center p-4">
             <div>
               <h2>${track.name}</h2>
-              <h3 class="lead">${track.artists
+              <h3 class="lead mb-3">${track.artists
                 .map((artist) => artist.name)
                 .join(", ")}</h3>
-              <p>${track.album.name}</p>
+              ${
+                track.preview_url
+                  ? `
+                <audio controls="controls">
+                    <source src=${track.preview_url} type="audio/mpeg">
+                </audio>
+                `
+                  : `<p class="text-white">No preview available</p>`
+              }
             </div>
             
             <div class="dropdown">
@@ -454,10 +462,18 @@ document.addEventListener("DOMContentLoaded", () => {
                   <div class="d-flex flex-grow-1 justify-content-between align-items-center p-4">
                     <div>
                       <h2>${item.track.name}</h2>
-                      <h3 class="lead">${item.track.artists
+                      <h3 class="lead mb-3">${item.track.artists
                         .map((artist) => artist.name)
                         .join(", ")}</h3>
-                      <p>${item.track.album.name}</p>
+                      ${
+                        item.track.preview_url
+                          ? `
+                        <audio controls="controls">
+                            <source src=${item.track.preview_url} type="audio/mpeg">
+                        </audio>
+                        `
+                          : `<p class="text-white">No preview available</p>`
+                      }
                     </div>
                   </div>
                 </div>`
