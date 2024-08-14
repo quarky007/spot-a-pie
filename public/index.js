@@ -93,3 +93,67 @@ const handleSearch = async (e) => {
 };
 
 document.getElementById("search").addEventListener("submit", handleSearch);
+
+// playlist fuctions
+
+document
+  .getElementById("createPlaylistBtn")
+  .addEventListener("click", function () {
+    document.getElementById("playlistFormContainer").style.display = "block";
+  });
+
+document
+  .getElementById("submitPlaylistBtn")
+  .addEventListener("click", async function () {
+    const playlistName = document.getElementById("playlistName").value;
+    if (!playlistName) {
+      alert("Please enter a playlist name.");
+      return;
+    }
+
+    const token = accessToken;
+
+    try {
+      const userId = await fetchUserId(token);
+      await createPlaylist(userId, playlistName, token);
+      alert("Playlist created successfully!");
+    } catch (error) {
+      console.error("Error creating playlist:", error);
+      alert("Failed to create playlist. Please try again.");
+    }
+  });
+
+async function fetchUserId(token) {
+  const response = await fetchWithAuth("https://api.spotify.com/v1/me");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch user ID");
+  }
+
+  const data = await response.json();
+  return data.id;
+}
+
+async function createPlaylist(userId, playlistName, token) {
+  const response = await fetchWithAuth(
+    `https://api.spotify.com/v1/users/${userId}/playlists`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: playlistName,
+        description: "New Playlist",
+        public: false,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to create playlist");
+  }
+
+  const playlistData = await response.json();
+  console.log("Created playlist:", playlistData);
+}

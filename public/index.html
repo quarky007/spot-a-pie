@@ -43,7 +43,7 @@
     <div class="sidebar">
       <a href="#">Home</a>
       <a href="#">Your Library</a>
-      <a href="#">Create Playlist</a>
+      <a href="#" id="createPlaylistBtn">Create Playlist</a>
       <a href="#">Liked Songs</a>
     </div>
 
@@ -51,9 +51,25 @@
       <div class="row">
         <div class="col-md-4">
           <div class="card">
-            <div id="new-releases" class="container">
-              <h2>New Releases</h2>
-              <div id="albums" class="row"></div>
+            <div id="playlistFormContainer" style="display: none;">
+              <h3>Create a New Playlist</h3>
+              <form id="playlistForm">
+                <div class="mb-3">
+                  <label for="playlistName" class="form-label">Playlist Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="playlistName"
+                    placeholder="Enter playlist name"
+                  />
+                </div>
+                <button type="button" class="btn btn-primary" id="submitPlaylistBtn">
+                  Create Playlist
+                </button>
+              </form>
+            </div>
+            <div id="new-releases" class="container" style="color: white;">
+  
             </div>
           </div>
         </div>
@@ -93,6 +109,8 @@
       </div>
     </footer>
 
-    <script src="index.js"></script>
+    <script src="index.js">
+      
+    </script>
   </body>
 </html>
