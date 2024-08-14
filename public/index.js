@@ -302,3 +302,104 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const homeBtn = document.getElementById("homeBtn");
+  const newReleasesContainer = document.getElementById("new-releases");
+  const artistMusicContainer = document.getElementById("artist-music");
+
+  // Replace with your actual Spotify API token
+  const accessToken = "YOUR_SPOTIFY_ACCESS_TOKEN";
+
+  homeBtn.addEventListener("click", async () => {
+    try {
+      const response = await fetchWithAuth(
+        "https://api.spotify.com/v1/browse/new-releases",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const data = await response.json();
+
+      // Clear existing content
+      newReleasesContainer.innerHTML = "";
+      artistMusicContainer.innerHTML = ""; // Clear artist music section
+
+      // Populate the container with new content
+      if (data && data.albums && data.albums.items) {
+        const albums = data.albums.items;
+        albums.forEach((album) => {
+          const albumElement = document.createElement("div");
+          albumElement.className = "col-md-3 mb-4"; // Grid column with margin bottom
+          albumElement.innerHTML = `
+            <div class="card" data-artist-id="${
+              album.artists[0].id
+            }" data-artist-name="${album.artists[0].name}">
+              <img src="${album.images[0].url}" class="card-img-top" alt="${
+            album.name
+          }" />
+              <div class="card-body">
+                <h5 class="card-title">${album.name}</h5>
+                <p class="card-text">${album.artists
+                  .map((artist) => artist.name)
+                  .join(", ")}</p>
+              </div>
+            </div>
+          `;
+          newReleasesContainer.appendChild(albumElement);
+        });
+
+        // Add click event to each card
+        document.querySelectorAll(".card").forEach((card) => {
+          card.addEventListener("click", async () => {
+            const artistId = card.getAttribute("data-artist-id");
+            const artistName = card.getAttribute("data-artist-name");
+            await fetchArtistMusic(artistId, artistName);
+          });
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching music data:", error);
+    }
+  });
+
+  // Fetch music by artist
+  async function fetchArtistMusic(artistId, artistName) {
+    try {
+      const response = await fetchWithAuth(
+        `https://api.spotify.com/v1/artists/${artistId}/albums`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const data = await response.json();
+
+      // Clear existing artist music content
+      artistMusicContainer.innerHTML = `
+        <h3>Music by ${artistName}</h3>
+        <div class="row">
+          ${data.items
+            .map(
+              (album) => `
+            <div class="col-md-3 mb-4">
+              <div class="card">
+                <img src="${album.images[0].url}" class="card-img-top" alt="${album.name}" />
+                <div class="card-body">
+                  <h5 class="card-title">${album.name}</h5>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("")}
+        </div>
+      `;
+    } catch (error) {
+      console.error("Error fetching artist music data:", error);
+    }
+  }
+});
