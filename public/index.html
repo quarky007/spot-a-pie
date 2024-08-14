@@ -23,21 +23,20 @@
     <link href="static/styles.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark text-white">
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="#">Spot A Pie</a>
+  <body>
+    <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
-        <div class="search-container">
-          <form class="d-flex">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn" type="submit">Search</button>
-          </form>
-        </div>
+        <a class="navbar-brand">Spot-a-pie</a>
+        <form class="d-flex" id="search" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            name="query"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
     </nav>
 
@@ -48,7 +47,7 @@
       <a href="#">Liked Songs</a>
     </div>
 
-    <div class="main-content text-white" id="albums">
+    <div class="main-content" id="albums">
       <div class="row">
         <div class="col-md-4">
           <div class="card">
@@ -70,7 +69,11 @@
               <button class="btn btn-link text-white" style="font-size: 2rem">
                 <i class="bi bi-skip-start-fill"></i>
               </button>
-              <button class="btn btn-link text-white" style="font-size: 2.5rem">
+              <button
+                id="play"
+                class="btn btn-link text-white"
+                style="font-size: 2.5rem"
+              >
                 <i class="bi bi-play-fill"></i>
               </button>
               <button class="btn btn-link text-white" style="font-size: 2rem">

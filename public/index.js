@@ -1,7 +1,20 @@
+API_BASE_URL = "https://api.spotify.com/v1";
+let accessToken;
+
+const fetchWithAuth = (url, opts) => {
+  return fetch(url, {
+    ...opts,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ...opts?.header,
+    },
+  });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const hash = window.location.hash.substring(1);
   const params = new URLSearchParams(hash);
-  const accessToken = params.get("access_token");
+  accessToken = params.get("access_token");
 
   if (!accessToken) {
     // If no token is present, redirect to Spotify authorization
@@ -44,4 +57,39 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch((error) => console.error("Error fetching data:", error));
 });
 
-document.getElementById("play", async () => {});
+const search = async (query) => {
+  // TODO: Allow user to choose search type
+  const response = await fetchWithAuth(
+    `${API_BASE_URL}/search?` + new URLSearchParams({ q: query, type: "track" })
+  );
+  return await response.json();
+};
+
+const handleSearch = async (e) => {
+  e.preventDefault();
+  const result = await search(e.target.elements.query.value);
+
+  console.log(result);
+
+  innerHTML = "";
+  result.tracks.items.forEach((item) => {
+    innerHTML += `
+      <div>
+        <h1>${item.name}</h1>
+        ${
+          item.preview_url
+            ? `
+          <audio controls="controls">
+              <source src=${item.preview_url} type="audio/mpeg">
+          </audio>
+          `
+            : "No preview"
+        }
+      </div>
+    `;
+  });
+
+  document.getElementById("albums").innerHTML = innerHTML;
+};
+
+document.getElementById("search").addEventListener("submit", handleSearch);
