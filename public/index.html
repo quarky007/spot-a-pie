@@ -48,7 +48,7 @@
         padding-right: 15px;
         padding-left: 15px;
         padding-bottom: 30px;
-      margin-top: 70px;
+        margin-top: 70px;
       }
       .sidebar a {
         color: #b3b3b3;
@@ -98,43 +98,44 @@
       }
       #playlistFormContainer {
         margin-bottom: 20px;
-    }
-   /* Grid Container for Music Cards */
-#new-releases, #artist-music {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Gap between grid items */
-}
+      }
+      /* Grid Container for Music Cards */
+      #new-releases,
+      #artist-music {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Gap between grid items */
+      }
 
-/* Music Card Styling */
-.card {
-  background-color: #282828;
-  border: none;
-  color: #b3b3b3;
-  overflow: hidden;
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
-  cursor: pointer; /* Cursor changes to pointer on hover */
-}
+      /* Music Card Styling */
+      .card {
+        background-color: #282828;
+        border: none;
+        color: #b3b3b3;
+        overflow: hidden;
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+        cursor: pointer; /* Cursor changes to pointer on hover */
+      }
 
-.card-img-top {
-  border-bottom: 1px solid #444; /* Border between image and text */
-}
+      .card-img-top {
+        border-bottom: 1px solid #444; /* Border between image and text */
+      }
 
-.card-body {
-  padding: 15px;
-}
+      .card-body {
+        padding: 15px;
+      }
 
-.card-title {
-  color: #ffffff;
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
+      .card-title {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
 
-.card-text {
-  color: #b3b3b3;
-  font-size: 0.9rem;
-  }
+      .card-text {
+        color: #b3b3b3;
+        font-size: 0.9rem;
+      }
     </style>
   </head>
   <body>
@@ -155,39 +156,51 @@
       </div>
     </nav>
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="#" id="homeBtn">Home</a>
-    <a href="#">Your Library</a>
-    <a href="#" id="createPlaylistBtn">Create Playlist</a>
-    <a href="#">Liked Songs</a>
-  </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="#" id="homeBtn">Home</a>
+      <a href="#">Your Library</a>
+      <a href="#" id="createPlaylistBtn">Create Playlist</a>
+      <a href="#">Liked Songs</a>
+    </div>
 
-  <!-- Main Content -->
-  <div class="main-content" id="albums">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div id="playlistFormContainer" style="display: none">
-              <h3>Create a New Playlist</h3>
-              <form id="playlistForm">
-                <div class="mb-3">
-                  <label for="playlistName" class="form-label">Playlist Name</label>
-                  <input type="text" class="form-control" id="playlistName" placeholder="Enter playlist name" />
-                </div>
-                <button type="button" class="btn btn-primary" id="submitPlaylistBtn">Create Playlist</button>
-  
-              </form>
-            </div>
+    <!-- Main Content -->
+    <div class="main-content" id="albums">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div id="playlistFormContainer" style="display: none">
+                <h3>Create a New Playlist</h3>
+                <form id="playlistForm">
+                  <div class="mb-3">
+                    <label for="playlistName" class="form-label"
+                      >Playlist Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="playlistName"
+                      placeholder="Enter playlist name"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="submitPlaylistBtn"
+                  >
+                    Create Playlist
+                  </button>
+                </form>
+              </div>
 
-            <!-- New Releases Section -->
-            <div id="new-releases" class="container mt-4"></div>
-            <!-- New Releases Section -->
-            <div id="new-releases" class="container mt-4"></div>
+              <!-- New Releases Section -->
+              <div id="new-releases" class="container mt-4"></div>
+              <!-- New Releases Section -->
+              <div id="new-releases" class="container mt-4"></div>
 
-            <!-- Artist Music Section -->
-            <div id="artist-music" class="container mt-4"></div>
+              <!-- Artist Music Section -->
+              <div id="artist-music" class="container mt-4"></div>
 
               <!-- Recommendations Section -->
               <div id="recommendationsContainer" class="container mt-4">
@@ -206,8 +219,6 @@
         </div>
       </div>
     </div>
-
- 
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
