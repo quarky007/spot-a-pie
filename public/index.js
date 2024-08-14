@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
     genreOptionsContainer.innerHTML = "";
     genres.forEach((genre) => {
       const button = document.createElement("button");
-      button.className = "btn btn-secondary me-2";
+      button.className = "btn btn-secondary m-2";
       button.textContent = genre;
       button.addEventListener("click", () => fetchRecommendations(genre));
       genreOptionsContainer.appendChild(button);
