@@ -403,3 +403,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
+// library section
+
+document.addEventListener("DOMContentLoaded", () => {
+  const libraryBtn = document.getElementById("libraryBtn");
+  const mainContent = document.getElementById("albums");
+
+  if (libraryBtn && mainContent) {
+    libraryBtn.addEventListener("click", () => {
+      mainContent.innerHTML = "";
+
+      const heading = document.createElement("h2");
+      heading.textContent = "Playlists";
+
+      mainContent.appendChild(heading);
+    });
+  } else {
+    console.error("Required elements are missing.");
+  }
+});
