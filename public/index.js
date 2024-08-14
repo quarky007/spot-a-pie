@@ -422,7 +422,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }" class="d-flex align-items-center mb-3 hover rounded p-4">
               <div>
                 <img src="${
-                  items.images?.length > 0 ? item.images[0].url : ""
+                  item.images
+                    ? item.images[0].url
+                    : "static/images/playlist-icon.png"
                 }" width="120px" class="rounded"> 
               </div>
 
