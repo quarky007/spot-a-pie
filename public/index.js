@@ -375,24 +375,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Clear existing artist music content
       artistMusicContainer.innerHTML = `
-        <h3>Music by ${artistName}</h3>
-        <div class="row">
-          ${data.items
-            .map(
-              (album) => `
-            <div class="col-md-3 mb-4">
-              <div class="card">
-                <img src="${album.images[0].url}" class="card-img-top" alt="${album.name}" />
-                <div class="card-body">
-                  <h5 class="card-title">${album.name}</h5>
+      <h3>Music by ${artistName}</h3>
+      <div class="row">
+        ${data.items
+          .map(
+            (album) => `
+            <div class="col-12 mb-4">
+              <div class="d-flex align-items-center mb-3 rounded" style="width: 100%; height: 100%; max-height: 200px;">
+                <div class="album-image-container" style="flex: 0 0 30%; max-width: 30%;">
+                  <img class="album-image" src="${album.images[0].url}" alt="${
+              album.name
+            }">
+                </div>
+                <div class="p-4 d-flex flex-column flex-grow-1 justify-content-between" style="flex: 1;">
+                  <div>
+                    <h2 class="mb-2">${album.name}</h2>
+                    <h3 class="lead mb-4">${album.artists
+                      .map((artist) => artist.name)
+                      .join(", ")}</h3>
+                    ${
+                      album.preview_url
+                        ? `
+                      <audio controls="controls" class="audio-player">
+                          <source src="${album.preview_url}" type="audio/mpeg">
+                      </audio>
+                      `
+                        : `<p class="text-white">No preview available</p>`
+                    }
+                  </div>
+                  <div class="dropdown">
+                    
+                    <ul class="dropdown-menu">
+                      <!-- Add dropdown menu items here if needed -->
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           `
-            )
-            .join("")}
-        </div>
-      `;
+          )
+          .join("")}
+      </div>
+    `;
     } catch (error) {
       console.error("Error fetching artist music data:", error);
     }
