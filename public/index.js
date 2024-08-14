@@ -21,19 +21,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/authorize";
     return;
   }
-
-  // const result = await releases();
-  // console.log(result);
-  // let innerHTML;
-  // result.albums.items.forEach((item) => {
-  //   innerHTML += `
-  //     <div>
-  //       <h2>${item.name}</h2>
-  //     </div>
-  //   `;
-  // });
-
-  // document.getElementById("albums").innerHTML = innerHTML;
 });
 
 const search = async (query) => {
@@ -313,6 +300,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// random music generator
 
 document.addEventListener("DOMContentLoaded", () => {
   const homeBtn = document.getElementById("homeBtn");
