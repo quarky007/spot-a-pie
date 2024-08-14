@@ -22,18 +22,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const result = await releases();
-  console.log(result);
-  let innerHTML;
-  result.albums.items.forEach((item) => {
-    innerHTML += `
-      <div>
-        <h2>${item.name}</h2>
-      </div>
-    `;
-  });
+  // const result = await releases();
+  // console.log(result);
+  // let innerHTML;
+  // result.albums.items.forEach((item) => {
+  //   innerHTML += `
+  //     <div>
+  //       <h2>${item.name}</h2>
+  //     </div>
+  //   `;
+  // });
 
-  document.getElementById("albums").innerHTML = innerHTML;
+  // document.getElementById("albums").innerHTML = innerHTML;
 });
 
 const search = async (query) => {
@@ -197,3 +197,72 @@ async function createPlaylist(userId, playlistName) {
   const playlistData = await response.json();
   console.log("Created playlist:", playlistData);
 }
+
+// recommendation section
+
+document.addEventListener("DOMContentLoaded", () => {
+  const recommendationsButton = document.getElementById("getRecommendations");
+  const recommendationsContainer = document.getElementById(
+    "recommendationsContainer"
+  );
+  const genreOptionsContainer = document.getElementById("genreOptions");
+  const genreForm = document.getElementById("genreForm");
+  const recommendationsDiv = document.getElementById("recommendations");
+
+  recommendationsButton.addEventListener("click", () => {
+    recommendationsContainer.style.display = "block";
+    fetchGenres();
+  });
+
+  async function fetchGenres() {
+    try {
+      const response = await fetchWithAuth(
+        "https://api.spotify.com/v1/recommendations/available-genre-seeds",
+        {}
+      );
+      const data = await response.json();
+      displayGenres(data.genres);
+    } catch (error) {
+      console.error("Error fetching genres:", error);
+    }
+  }
+
+  function displayGenres(genres) {
+    genreOptionsContainer.innerHTML = "";
+    genres.forEach((genre) => {
+      const button = document.createElement("button");
+      button.className = "btn btn-secondary me-2";
+      button.textContent = genre;
+      button.addEventListener("click", () => fetchRecommendations(genre));
+      genreOptionsContainer.appendChild(button);
+    });
+    genreForm.style.display = "block";
+  }
+
+  async function fetchRecommendations(genre) {
+    try {
+      const response = await fetchWithAuth(
+        `https://api.spotify.com/v1/recommendations?seed_genres=${genre}`,
+        {}
+      );
+      const data = await response.json();
+      displayRecommendations(data.tracks);
+    } catch (error) {
+      console.error("Error fetching recommendations:", error);
+    }
+  }
+
+  function displayRecommendations(tracks) {
+    recommendationsDiv.innerHTML = "";
+    tracks.forEach((track) => {
+      const trackDiv = document.createElement("div");
+      trackDiv.className = "mb-2";
+      trackDiv.innerHTML = `
+        <h5>${track.name}</h5>
+        <p>${track.artists.map((artist) => artist.name).join(", ")}</p>
+        <p>${track.album.name}</p>
+      `;
+      recommendationsDiv.appendChild(trackDiv);
+    });
+  }
+});
